@@ -3,7 +3,11 @@ package cmd
 import (
 	"fmt"
 	"strings"
+	"time"
 
+	"github.com/briandowns/spinner"
+	"github.com/mayudev/animethemes-cli/api"
+	"github.com/mayudev/animethemes-cli/util"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +21,23 @@ var animeCmd = &cobra.Command{
 		query := strings.Join(args, " ")
 
 		fmt.Println("query", query)
+
+		// Show loading spinner
+		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+		s.Suffix = " Searching..."
+		s.Start()
+
+		result := api.SearchAnime(query)
+
+		s.Stop()
+
+		choices := make([]string, len(result.Anime))
+
+		for i, v := range result.Anime {
+			choices[i] = v.Name
+		}
+
+		util.ShowSelection("Select", choices)
 	},
 }
 
