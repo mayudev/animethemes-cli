@@ -1,13 +1,12 @@
 package util
 
 import (
-	"fmt"
-
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
 )
 
-func ShowSelection(title string, items []string) {
+// SimpleSelection shows a choice of items and returns the index of the selected item
+func SimpleSelection(title string, items []string) int {
 	prompt := &survey.Select{
 		Message:  title,
 		Options:  items,
@@ -20,5 +19,5 @@ func ShowSelection(title string, items []string) {
 
 	cobra.CheckErr(err)
 
-	fmt.Println(index)
+	return index
 }

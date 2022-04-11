@@ -2,7 +2,7 @@ package api
 
 const (
 	API_ENDPOINT = "https://staging.animethemes.moe"
-	RESOURCE_URL = "https://animethemes.moe/video"
+	RESOURCE_URL = "https://animethemes.moe/video/"
 )
 
 type Timestamps struct {
@@ -31,6 +31,7 @@ type AnimeTheme struct {
 	Group    string            `json:"group,omitempty"`
 	Slug     string            `json:"slug"`
 	Entries  []AnimeThemeEntry `json:"animethemeentries,omitempty"`
+	Song     Song              `json:"song"`
 
 	Timestamps
 }
@@ -47,10 +48,18 @@ type AnimeThemeEntry struct {
 	Timestamps
 }
 
+type Song struct {
+	ID    int    `json:"id"`
+	Title string `json:"title,omitempty"`
+	As    string `json:"string,omitempty"`
+
+	Timestamps
+}
+
 type Video struct {
 	ID         int    `json:"id"`
 	Basename   string `json:"basename"`
-	Size       string `json:"size"`
+	Size       int    `json:"size"`
 	Resolution int    `json:"resolution,omitempty"`
 	NC         bool   `json:"nc"`
 	Subbed     bool   `json:"subbed"`
