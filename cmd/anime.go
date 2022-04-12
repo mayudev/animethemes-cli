@@ -49,6 +49,9 @@ var animeCmd = &cobra.Command{
 
 		// Skip prompt if -1 flag passed or there's only one result
 		if len(result.Anime) == 1 || first {
+			// Show the title of the anime that was selected
+			pterm.Println(pterm.LightGreen("-> " + result.Anime[0].Name))
+
 			grabAnime(result.Anime[0].Slug)
 		} else {
 			choices := make([]string, len(result.Anime))
@@ -65,6 +68,7 @@ var animeCmd = &cobra.Command{
 }
 
 func init() {
+	// Initialize local flags
 	animeCmd.Flags().BoolVarP(&openings, "openings", "o", false, "show only opening themes")
 	animeCmd.Flags().BoolVarP(&endings, "endings", "e", false, "show only ending themes")
 	animeCmd.Flags().UintVar(&op, "op", 0, "choose particular opening to play")

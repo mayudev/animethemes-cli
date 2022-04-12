@@ -1,8 +1,6 @@
 package util
 
 import (
-	"strconv"
-
 	"github.com/mayudev/animethemes-cli/api"
 	"github.com/mayudev/animethemes-cli/player"
 )
@@ -11,7 +9,7 @@ func AskEntries(entries []api.AnimeThemeEntry) {
 	if len(entries) > 1 {
 		choices := make([]string, len(entries))
 		for i, v := range entries {
-			choices[i] = v.Episodes
+			choices[i] = BuildEntryChoiceString(&v)
 		}
 
 		resultIndex := SimpleSelection("Select version to play", choices)
@@ -26,7 +24,7 @@ func AskVideos(videos []api.Video) {
 	if len(videos) > 1 {
 		choices := make([]string, len(videos))
 		for i, v := range videos {
-			choices[i] = strconv.Itoa(v.Resolution)
+			choices[i] = BuildVideoChoiceString(&v)
 		}
 
 		chosenIndex := SimpleSelection("Select quality", choices)
