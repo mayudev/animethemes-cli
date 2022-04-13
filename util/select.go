@@ -1,6 +1,8 @@
 package util
 
 import (
+	"io"
+
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
 )
@@ -17,7 +19,13 @@ func SimpleSelection(title string, items []string) int {
 
 	err := survey.AskOne(prompt, &index)
 
-	cobra.CheckErr(err)
+	if err != nil {
+		if err == io.EOF {
+			return 0
+		} else {
+			cobra.CheckErr(err)
+		}
+	}
 
 	return index
 }

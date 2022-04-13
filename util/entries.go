@@ -2,10 +2,29 @@ package util
 
 import (
 	"github.com/mayudev/animethemes-cli/api"
-	"github.com/mayudev/animethemes-cli/player"
 )
 
-func AskEntries(entries []api.AnimeThemeEntry) {
+type Asker struct {
+	Player player
+}
+
+type player interface {
+	Play(v *api.Video)
+}
+
+type Real struct{}
+
+func NewAsker() Asker {
+	return Asker{
+		Player: Real{},
+	}
+}
+
+func (Real) Play(v *api.Video) {
+	PlayVideo(v)
+}
+
+func (a Asker) AskEntries(entries []api.AnimeThemeEntry) {
 	if len(entries) > 1 {
 		choices := make([]string, len(entries))
 		for i, v := range entries {
@@ -14,13 +33,13 @@ func AskEntries(entries []api.AnimeThemeEntry) {
 
 		resultIndex := SimpleSelection("Select version to play", choices)
 
-		AskVideos(entries[resultIndex].Videos)
+		a.AskVideos(entries[resultIndex].Videos)
 	} else {
-		AskVideos(entries[0].Videos)
+		a.AskVideos(entries[0].Videos)
 	}
 }
 
-func AskVideos(videos []api.Video) {
+func (a Asker) AskVideos(videos []api.Video) {
 	if len(videos) > 1 {
 		choices := make([]string, len(videos))
 		for i, v := range videos {
@@ -28,8 +47,8 @@ func AskVideos(videos []api.Video) {
 		}
 
 		chosenIndex := SimpleSelection("Select quality", choices)
-		player.PlayVideo(&videos[chosenIndex])
+		a.Player.Play(&videos[chosenIndex])
 	} else {
-		player.PlayVideo(&videos[0])
+		a.Player.Play(&videos[0])
 	}
 }

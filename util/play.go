@@ -1,4 +1,4 @@
-package player
+package util
 
 import (
 	"bytes"
@@ -7,15 +7,14 @@ import (
 	"os/exec"
 
 	"github.com/mayudev/animethemes-cli/api"
+	"github.com/mayudev/animethemes-cli/global"
 	"github.com/spf13/cobra"
 )
-
-var Player string
 
 func PlayVideo(video *api.Video) {
 	url := api.RESOURCE_URL + video.Basename
 
-	cmd := exec.Command(Player, url)
+	cmd := exec.Command(global.Player, url)
 
 	// Print player output to console, because why not
 	var stdBuffer bytes.Buffer

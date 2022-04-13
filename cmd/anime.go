@@ -91,5 +91,5 @@ func grabAnime(slug string) {
 
 	entries := result.Themes[resultIndex].Entries
 
-	util.AskEntries(entries)
+	util.NewAsker().AskEntries(entries)
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mayudev/animethemes-cli/player"
+	"github.com/mayudev/animethemes-cli/global"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -38,7 +38,7 @@ func init() {
 	// Apply custom config file
 	rootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is ~/.config/animethemes-cli.yml)")
 	// Apply config key for player
-	rootCmd.PersistentFlags().StringVarP(&player.Player, "player", "p", "mpv", "player command to use")
+	rootCmd.PersistentFlags().StringVarP(&global.Player, "player", "p", "mpv", "player command to use")
 	viper.BindPFlag("player", rootCmd.PersistentFlags().Lookup("player"))
 	viper.SetDefault("player", "mpv")
 
