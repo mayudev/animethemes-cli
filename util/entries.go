@@ -4,27 +4,7 @@ import (
 	"github.com/mayudev/animethemes-cli/api"
 )
 
-type Asker struct {
-	Player player
-}
-
-type player interface {
-	Play(v *api.Video)
-}
-
-type Real struct{}
-
-func NewAsker() Asker {
-	return Asker{
-		Player: Real{},
-	}
-}
-
-func (Real) Play(v *api.Video) {
-	PlayVideo(v)
-}
-
-func (a Asker) AskEntries(entries []api.AnimeThemeEntry) {
+func (a Interface) AskEntries(entries []api.AnimeThemeEntry) {
 	if len(entries) > 1 {
 		choices := make([]string, len(entries))
 		for i, v := range entries {
@@ -39,7 +19,7 @@ func (a Asker) AskEntries(entries []api.AnimeThemeEntry) {
 	}
 }
 
-func (a Asker) AskVideos(videos []api.Video) {
+func (a Interface) AskVideos(videos []api.Video) {
 	if len(videos) > 1 {
 		choices := make([]string, len(videos))
 		for i, v := range videos {

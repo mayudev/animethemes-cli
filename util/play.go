@@ -1,3 +1,5 @@
+//go:build !test
+
 package util
 
 import (
@@ -11,7 +13,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func PlayVideo(video *api.Video) {
+type Real struct{}
+
+func (Real) Play(video *api.Video) {
 	url := api.RESOURCE_URL + video.Basename
 
 	cmd := exec.Command(global.Player, url)
