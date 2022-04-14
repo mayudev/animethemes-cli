@@ -18,6 +18,7 @@ var (
 	op       uint
 	ed       uint
 	first    bool
+	forever  bool
 )
 
 var animeCmd = &cobra.Command{
@@ -74,6 +75,7 @@ func init() {
 	animeCmd.Flags().UintVar(&op, "op", 0, "choose particular opening to play")
 	animeCmd.Flags().UintVar(&ed, "ed", 0, "choose particular ending to play")
 	animeCmd.Flags().BoolVarP(&first, "first", "1", false, "skip choices and pick the first anime result")
+	animeCmd.Flags().BoolVarP(&forever, "forever", "f", false, "ask for choice again once finished playing")
 }
 
 // grabAnime Grab anime themes by slug
@@ -88,5 +90,11 @@ func grabAnime(slug string) {
 		First:        first,
 	})
 
-	in.AskThemes(result)
+	for {
+		in.AskThemes(result)
+		if !forever {
+			break
+		}
+	}
+
 }

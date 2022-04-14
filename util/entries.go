@@ -70,6 +70,7 @@ func (a Interface) AskThemes(anime api.Anime) {
 
 		// Proceed to entry selection
 		entries := anime.Themes[originalIndex].Entries
+
 		a.AskEntries(entries)
 	}
 }

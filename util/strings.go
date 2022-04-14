@@ -7,11 +7,16 @@ import (
 	"github.com/pterm/pterm"
 )
 
+// BuildThemeString builds a string displaying information about a theme
+// e.g. OP1 sister's noise [1-16] 1080p BD Creditless
+//
+// It also displays additional information about entry and video (e.g. resolution, episodes)
+// if there's only one of them.
 func BuildThemeString(t *api.AnimeTheme) string {
 	result := t.Slug + " " + pterm.Sprintf(pterm.LightYellow(t.Song.Title))
 
 	if len(t.Entries) == 1 && len(t.Entries[0].Videos) == 1 {
-		result += " [" + BuildVideoChoiceString(&t.Entries[0].Videos[0]) + "]"
+		result += " [" + pterm.LightCyan(t.Entries[0].Episodes) + " " + BuildVideoChoiceString(&t.Entries[0].Videos[0]) + "]"
 	}
 
 	return result
