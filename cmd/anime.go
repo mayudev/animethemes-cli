@@ -17,7 +17,6 @@ var (
 	endings  bool
 	op       uint
 	ed       uint
-	group    string
 	first    bool
 )
 
@@ -74,7 +73,6 @@ func init() {
 	animeCmd.Flags().BoolVarP(&endings, "endings", "e", false, "show only ending themes")
 	animeCmd.Flags().UintVar(&op, "op", 0, "choose particular opening to play")
 	animeCmd.Flags().UintVar(&ed, "ed", 0, "choose particular ending to play")
-	animeCmd.Flags().StringVarP(&group, "group", "g", "all", "name or index of group to show")
 	animeCmd.Flags().BoolVarP(&first, "first", "1", false, "skip choices and pick the first anime result")
 }
 
@@ -82,15 +80,13 @@ func init() {
 func grabAnime(slug string) {
 	result := api.GetAnime(slug)
 
-	choices := make([]string, len(result.Themes))
+	in := util.NewInterface(util.Flags{
+		OnlyOpenings: openings,
+		OnlyEndings:  endings,
+		OpeningN:     op,
+		EndingN:      ed,
+		First:        first,
+	})
 
-	for i, v := range result.Themes {
-		choices[i] = v.Slug + " " + pterm.Sprintf(pterm.LightYellow(v.Song.Title))
-	}
-
-	resultIndex := util.SimpleSelection("Select theme to play", choices)
-
-	entries := result.Themes[resultIndex].Entries
-
-	util.NewInterface().AskEntries(entries)
+	in.AskThemes(result)
 }
