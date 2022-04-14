@@ -22,10 +22,11 @@ var (
 )
 
 var animeCmd = &cobra.Command{
-	Use:   "anime",
-	Short: "Search for anime",
-	Long:  `Search for anime`,
-	Args:  cobra.MinimumNArgs(1),
+	Use:     "anime",
+	Aliases: []string{"a", "q"},
+	Short:   "Search for anime",
+	Long:    `Search for anime`,
+	Args:    cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		// Find query
 		query := strings.Join(args, " ")

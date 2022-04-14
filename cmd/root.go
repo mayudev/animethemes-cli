@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/mayudev/animethemes-cli/global"
 	"github.com/spf13/cobra"
@@ -25,7 +26,38 @@ Please consider supporting their work if you like it.`,
 	}
 )
 
+// getSubcommands returns all subcommands of rootCmd
+func getSubcommands() []string {
+	subcommands := []string{}
+
+	// Append built-in commands
+	subcommands = append(subcommands, "completion", "help")
+
+	// Append all subcommands with all aliases
+	for _, c := range rootCmd.Commands() {
+		subcommands = append(subcommands, c.Name())
+		subcommands = append(subcommands, c.Aliases...)
+	}
+
+	return subcommands
+}
+
+func checkRootAlias(a string, b []string) {
+	for _, v := range b {
+		if a == v {
+			return
+		}
+	}
+	os.Args = append([]string{os.Args[0], "anime"}, os.Args[1:]...)
+}
+
 func Execute() {
+	getSubcommands()
+
+	if len(os.Args) > 1 && !strings.HasPrefix(os.Args[1], "-") {
+		checkRootAlias(os.Args[1], getSubcommands())
+	}
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
