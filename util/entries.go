@@ -1,7 +1,6 @@
 package util
 
 import (
-	"os"
 	"strconv"
 
 	"github.com/mayudev/animethemes-cli/api"
@@ -9,7 +8,6 @@ import (
 )
 
 func (a Interface) AskThemes(anime api.Anime) {
-
 	if a.Flags.OpeningN != 0 || a.Flags.EndingN != 0 { // "--op" or "--ed" flag was specified
 		sequence := 0
 		kind := ""
@@ -32,7 +30,7 @@ func (a Interface) AskThemes(anime api.Anime) {
 
 		// No match was found
 		pterm.Error.Println(kind + strconv.Itoa(sequence) + " wasn't found.")
-		os.Exit(0)
+		a.Exit()
 
 	} else { // Neither flag was specified
 		choices := []string{}
@@ -59,7 +57,7 @@ func (a Interface) AskThemes(anime api.Anime) {
 		// Check filtered results length
 		if len(choices) == 0 {
 			pterm.Error.Println("No results found.")
-			os.Exit(0)
+			a.Exit()
 		}
 
 		// Returns filtered index

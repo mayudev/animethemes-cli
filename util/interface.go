@@ -1,6 +1,10 @@
 package util
 
-import "github.com/mayudev/animethemes-cli/api"
+import (
+	"os"
+
+	"github.com/mayudev/animethemes-cli/api"
+)
 
 type Flags struct {
 	OnlyOpenings bool
@@ -15,6 +19,7 @@ type Flags struct {
 type Interface struct {
 	Player player
 	Flags  Flags
+	Exit   func()
 }
 
 type player interface {
@@ -26,5 +31,8 @@ func NewInterface(flags Flags) Interface {
 	return Interface{
 		Player: Real{},
 		Flags:  flags,
+		Exit: func() {
+			os.Exit(0)
+		},
 	}
 }

@@ -7,6 +7,117 @@ import (
 	"github.com/mayudev/animethemes-cli/api"
 )
 
+func TestBuildThemeString(t *testing.T) {
+	tests := []struct {
+		name  string
+		theme *api.AnimeTheme
+		check func(output string)
+	}{
+		{
+			name: "displays information about a theme",
+			theme: &api.AnimeTheme{
+				Slug: "Slug",
+				Song: api.Song{
+					Title: "Song Title",
+				},
+			},
+			check: func(output string) {
+				if !strings.Contains(output, "Slug") {
+					t.Errorf("BuildThemeString does not contain Slug")
+				}
+
+				if !strings.Contains(output, "Song Title") {
+					t.Errorf("BuildThemeString does not contain song title")
+				}
+			},
+		},
+		{
+			name: "displays information about video when there's only one",
+			theme: &api.AnimeTheme{
+				Slug: "Slug",
+				Song: api.Song{
+					Title: "Song Title",
+				},
+				Entries: []api.AnimeThemeEntry{
+					{
+						Episodes: "1-16",
+						Nsfw:     false,
+						Spoiler:  false,
+						Videos: []api.Video{
+							{
+								ID:         0,
+								Resolution: 1080,
+								Source:     "BD",
+								NC:         false,
+								Lyrics:     false,
+								Overlap:    "None",
+							},
+						},
+					},
+				},
+			},
+			check: func(output string) {
+				if !strings.Contains(output, "1080") {
+					t.Errorf("BuildThemeString does not contain information about video even though there's only one video entry")
+				}
+			},
+		},
+		{
+			name: "does not display information about video when there's more than one",
+			theme: &api.AnimeTheme{
+				Slug: "Slug",
+				Song: api.Song{
+					Title: "Song Title",
+				},
+				Entries: []api.AnimeThemeEntry{
+					{
+						Episodes: "1-16",
+						Nsfw:     false,
+						Spoiler:  false,
+						Videos: []api.Video{
+							{
+								ID:         0,
+								Resolution: 1080,
+								Source:     "BD",
+								NC:         false,
+								Lyrics:     false,
+								Overlap:    "None",
+							},
+						},
+					},
+					{
+						Episodes: "17-24",
+						Nsfw:     false,
+						Spoiler:  true,
+						Videos: []api.Video{
+							{
+								ID:         1,
+								Resolution: 1080,
+								Source:     "BD",
+								NC:         false,
+								Lyrics:     false,
+								Overlap:    "None",
+							},
+						},
+					},
+				},
+			},
+			check: func(output string) {
+				if strings.Contains(output, "1080") {
+					t.Errorf("BuildThemeString contains video information even though there's more than one")
+				}
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := BuildThemeString(tt.theme)
+
+			tt.check(got)
+		})
+	}
+}
+
 func TestBuildEntryChoiceString(t *testing.T) {
 	tests := []struct {
 		name   string
@@ -96,7 +207,7 @@ func TestBuildVideoChoiceString(t *testing.T) {
 		{
 			name: "displays Transition",
 			video: &api.Video{
-				Overlap: "Over",
+				Overlap: "Transition",
 			},
 			want: "Transition",
 		},
