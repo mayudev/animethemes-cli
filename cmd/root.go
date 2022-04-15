@@ -74,7 +74,9 @@ func init() {
 	viper.BindPFlag("player", rootCmd.PersistentFlags().Lookup("player"))
 	viper.SetDefault("player", "mpv")
 
+	// Register subcommands
 	rootCmd.AddCommand(animeCmd)
+	rootCmd.AddCommand(yearCmd)
 }
 
 func initConfig() {

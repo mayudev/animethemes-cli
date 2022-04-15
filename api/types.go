@@ -71,6 +71,13 @@ type Video struct {
 	Link       string `json:"link"`
 }
 
+type Links struct {
+	First string `json:"first"`
+	Last  string `json:"last"`
+	Prev  string `json:"prev"`
+	Next  string `json:"next"`
+}
+
 type Meta struct {
 	CurrentPage int `json:"current_page"`
 	From        int `json:"from"`
@@ -81,5 +88,6 @@ type Meta struct {
 
 type AnimeSearch struct {
 	Anime []Anime `json:"anime"`
+	Links Links   `json:"links"`
 	Meta  Meta    `json:"meta"`
 }
