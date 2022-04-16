@@ -2,6 +2,7 @@ package util
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/mayudev/animethemes-cli/api"
 	"github.com/pterm/pterm"
@@ -16,7 +17,7 @@ func BuildThemeString(t *api.AnimeTheme) string {
 	result := t.Slug + " " + pterm.Sprintf(pterm.LightYellow(t.Song.Title))
 
 	if len(t.Entries) == 1 && len(t.Entries[0].Videos) == 1 {
-		result += " [" + pterm.LightCyan(t.Entries[0].Episodes) + " " + BuildVideoChoiceString(&t.Entries[0].Videos[0]) + "]"
+		result += " " + BuildEntryChoiceString(&t.Entries[0])
 	}
 
 	return result
@@ -42,6 +43,8 @@ func BuildEntryChoiceString(e *api.AnimeThemeEntry) string {
 	if len(e.Videos) == 1 {
 		result += " [" + BuildVideoChoiceString(&e.Videos[0]) + "]"
 	}
+
+	result = strings.TrimSpace(result)
 
 	return result
 }
@@ -70,6 +73,8 @@ func BuildVideoChoiceString(v *api.Video) string {
 	if v.Overlap != "None" {
 		result += " " + pterm.LightRed(v.Overlap)
 	}
+
+	result = strings.TrimSpace(result)
 
 	return result
 }
