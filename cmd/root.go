@@ -65,7 +65,7 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
+	initConfig()
 
 	// Apply custom config file
 	rootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is ~/.config/animethemes-cli.yml)")
@@ -73,6 +73,11 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&global.Player, "player", "p", "mpv", "player command to use")
 	viper.BindPFlag("player", rootCmd.PersistentFlags().Lookup("player"))
 	viper.SetDefault("player", "mpv")
+
+	p := viper.Get("player")
+	if p != nil {
+		global.Player = p.(string)
+	}
 
 	// Register subcommands
 	rootCmd.AddCommand(animeCmd)
