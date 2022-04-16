@@ -2,7 +2,9 @@ package util
 
 import (
 	"os"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/mayudev/animethemes-cli/api"
 	"github.com/pterm/pterm"
 )
@@ -25,8 +27,15 @@ func (a Interface) FetchCurrentPage() *api.AnimeSearch {
 }
 
 func (a Interface) AskSeason() {
+	// Show spinner
+	s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+	s.Suffix = " Loading..."
+	s.Start()
+
 	// Query API
 	results := a.FetchCurrentPage()
+
+	s.Stop()
 
 	if len(results.Anime) == 0 {
 		pterm.Error.Println("No results found.")
@@ -70,6 +79,8 @@ func (a Interface) AskSeason() {
 		// Ask again
 		a.AskSeason()
 	} else {
+		// An actual entry was selected
+
 		// Compute real index (before Previous page option was added)
 		realIndex := animeIndex
 
@@ -77,12 +88,18 @@ func (a Interface) AskSeason() {
 			realIndex--
 		}
 
-		// An actual entry was selected
+		// Show loading spinner
+		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+		s.Suffix = " Loading..."
+		s.Start()
 
 		result := api.GetAnime(results.Anime[realIndex].Slug)
 
-		// Show loading spinner
+		// Hide spinner
+		s.Stop()
+
 		a.AskThemes(result)
+
 	}
 }
 
