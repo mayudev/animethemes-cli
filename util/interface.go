@@ -14,12 +14,19 @@ type Flags struct {
 	First        bool
 }
 
+type CurrentSeason struct {
+	Season int
+	Year   int
+	Page   int
+}
+
 // I don't know how to call it, so I'll call it Interface
 // (as an Interface to interact with utils)
 type Interface struct {
-	Player player
-	Flags  Flags
-	Exit   func()
+	Player        player
+	Flags         Flags
+	CurrentSeason CurrentSeason
+	Exit          func()
 }
 
 type player interface {
@@ -31,6 +38,9 @@ func NewInterface(flags Flags) Interface {
 	return Interface{
 		Player: Real{},
 		Flags:  flags,
+		CurrentSeason: CurrentSeason{
+			Page: 1,
+		},
 		Exit: func() {
 			os.Exit(0)
 		},

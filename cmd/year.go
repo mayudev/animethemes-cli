@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mayudev/animethemes-cli/api"
 	"github.com/mayudev/animethemes-cli/util"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
@@ -40,17 +39,13 @@ var yearCmd = &cobra.Command{
 }
 
 func askSeason(year int) {
-	choices := []string{"Winter", "Spring", "Summer", "Fall"}
-
 	// Show season selection to user
-	seasonIndex := util.SimpleSelection("Select season", choices)
+	seasonIndex := util.SimpleSelection("Select season", util.Seasons)
 
-	// Query API
-	results := api.GetSeason(choices[seasonIndex], year, 1)
+	// Make a new interface and set current season data
+	in := util.NewInterface(util.Flags{})
+	in.CurrentSeason.Year = year
+	in.CurrentSeason.Season = seasonIndex
 
-	if len(results.Anime) == 0 {
-		pterm.Error.Println("No results found.")
-		os.Exit(0)
-	}
-
+	in.AskSeason()
 }

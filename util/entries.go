@@ -8,7 +8,8 @@ import (
 )
 
 func (a Interface) AskThemes(anime api.Anime) {
-	if a.Flags.OpeningN != 0 || a.Flags.EndingN != 0 { // "--op" or "--ed" flag was specified
+	// "--op" or "--ed" flag was specified
+	if a.Flags.OpeningN != 0 || a.Flags.EndingN != 0 {
 		sequence := 0
 		kind := ""
 
