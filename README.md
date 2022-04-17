@@ -1,9 +1,19 @@
 # animethemes-cli
 
-A CLI for animethemes.moe
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mayudev/animethemes-cli/Go?style=flat-square)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mayudev/animethemes-cli?style=flat-square)
+
+CLI tool to find and listen to anime openings and endings from your terminal :notes: using [animethemes.moe](https://animethemes.moe/)
+
+[Installation](#installation) | [Usage](#usage)
 
 ## Installation
 
+Grab the latest [release](https://github.com/mayudev/animethemes-cli/releases/latest), make the file executable with `chmod +x animethemes` and copy it to either `/usr/bin/` or `~/.local/bin/` (if it's in your PATH)
+
+By default, animethemes-cli uses `mpv` to play videos, but you can change that in [Configuration](#configuration)
+
+### Build from source
 ```sh
 # Make sure go is installed
 go version
