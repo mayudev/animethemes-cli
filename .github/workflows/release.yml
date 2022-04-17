@@ -16,7 +16,6 @@ jobs:
       - name: Build
         run: go build -ldflags "-s -w" -o animethemes
       - name: Release
-        uses: actions/upload-artifact@v3
+        uses: softprops/action-gh-release@v1
         with:
-          name: animethemes
-          path: animethemes
+          files: animethemes
