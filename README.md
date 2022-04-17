@@ -18,12 +18,12 @@ go build -ldflags "-s -w" -o animethemes
 # Install the package (make sure ~/.local/bin/ is in path)
 mv animethemes ~/.local/bin/
 # Alternatively, if you want to install it for all users
-mv animethemes /usr/local/bin/
+sudo mv animethemes /usr/local/bin/
 ```
 
 ## Usage
 
-Use `animethemes` to show all commands with explanation.
+Use `animethemes` to show all commands with explanations.
 
 Flag `--player` (`-p`) allows you to specify a player to use. You can also do it through a config file.
 
