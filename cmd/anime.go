@@ -28,6 +28,12 @@ var animeCmd = &cobra.Command{
 	Long:    `Search for anime`,
 	Args:    cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
+		// Validate flags
+		if forever && (op != 0 || ed != 0) {
+			pterm.Error.Println("Do not use --forever with --op or --ed.")
+			os.Exit(0)
+		}
+
 		// Find query
 		query := strings.Join(args, " ")
 
