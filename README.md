@@ -21,6 +21,7 @@ go version
 
 # Clone this repository
 git clone https://github.com/mayudev/animethemes-cli
+cd animethemes-cli
 
 # Compile the package
 go build -ldflags "-s -w" -o animethemes
